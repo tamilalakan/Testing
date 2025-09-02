@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GST Billing SaaS - Wireframe</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .sidebar-item.active {
+            background-color: #eef2ff; /* indigo-50 */
+            color: #4f46e5; /* indigo-600 */
+            font-weight: 600;
+        }
+        .sidebar-item.active svg {
+            color: #4f46e5;
+        }
+        .main-content {
+            display: none;
+        }
+        .main-content.active {
+            display: block;
+        }
+        .status-badge {
+            padding: 2px 8px;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+        }
+        .status-paid { background-color: #dcfce7; color: #166534; }
+        .status-overdue { background-color: #fee2e2; color: #991b1b; }
+        .status-draft { background-color: #f1f5f9; color: #475569; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white border-r border-gray-200 flex flex-col shrink-0">
+            <div class="p-4 border-b border-gray-200 flex items-center gap-3">
+                <div class="bg-indigo-600 text-white w-10 h-10 rounded-lg flex items-center justify-center">
+                    <i data-lucide="receipt-indian-rupee"></i>
+                </div>
+                <span class="font-bold text-xl">TaxFlow</span>
+            </div>
+            <nav id="sidebar-nav" class="flex-grow p-4 space-y-2">
+                <a href="#" onclick="navigate(this, 'dashboard')" class="sidebar-item active flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100">
+                    <i data-lucide="layout-dashboard" class="w-5 h-5"></i><span>Dashboard</span>
+                </a>
+                <a href="#" onclick="navigate(this, 'invoices')" class="sidebar-item flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100">
+                    <i data-lucide="file-text" class="w-5 h-5"></i><span>Invoices</span>
+                </a>
+                <a href="#" onclick="navigate(this, 'customers')" class="sidebar-item flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100">
+                    <i data-lucide="users" class="w-5 h-5"></i><span>Customers</span>
+                </a>
+                <a href="#" onclick="navigate(this, 'products')" class="sidebar-item flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100">
+                    <i data-lucide="package" class="w-5 h-5"></i><span>Products</span>
+                </a>
+                <a href="#" onclick="navigate(this, 'reports')" class="sidebar-item flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100">
+                    <i data-lucide="bar-chart-3" class="w-5 h-5"></i><span>Reports</span>
+                </a>
+                 <a href="#" onclick="navigate(this, 'assistant')" class="sidebar-item flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100">
+                    <i data-lucide="sparkles" class="w-5 h-5"></i><span>GST Assistant</span>
+                </a>
+            </nav>
+            <div class="p-4 border-t border-gray-200">
+                 <a href="#" class="sidebar-item flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100">
+                    <i data-lucide="settings" class="w-5 h-5"></i><span>Settings</span>
+                </a>
+                 <a href="#" class="sidebar-item flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100">
+                    <div class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center font-bold text-indigo-700">SK</div>
+                    <span>Suresh Kumar</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 overflow-y-auto">
+            
+            <!-- Dashboard -->
+            <div id="dashboard" class="main-content active p-8">
+                <h1 class="text-3xl font-bold">Dashboard</h1>
+                <p class="text-gray-500 mt-1">Welcome back, Suresh! Here's your business summary.</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+                    <div class="bg-white p-6 rounded-lg border border-gray-200">
+                        <h3 class="text-gray-500">Total Sales (This Month)</h3>
+                        <p class="text-3xl font-bold mt-2">₹1,12,750</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg border border-gray-200">
+                        <h3 class="text-gray-500">GST Liability (This Month)</h3>
+                        <p class="text-3xl font-bold mt-2">₹16,580</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg border border-gray-200">
+                        <h3 class="text-gray-500">Overdue Invoices</h3>
+                        <p class="text-3xl font-bold mt-2">3 (<span class="text-red-500">₹22,400</span>)</p>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg border border-gray-200 mt-6">
+                     <h3 class="font-semibold text-lg">Sales Overview</h3>
+                     <canvas id="salesChart" class="mt-4"></canvas>
+                </div>
+            </div>
+
+            <!-- Invoices List -->
+            <div id="invoices" class="main-content p-8">
+                 <div class="flex justify-between items-center">
+                    <div>
+                        <h1 class="text-3xl font-bold">Invoices</h1>
+                        <p class="text-gray-500 mt-1">Manage all your customer invoices.</p>
+                    </div>
+                    <button onclick="navigate(null, 'new-invoice')" class="bg-indigo-600 text-white font-semibold px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-indigo-700">
+                        <i data-lucide="plus" class="w-5 h-5"></i> New Invoice
+                    </button>
+                 </div>
+                 <div class="bg-white rounded-lg border border-gray-200 mt-6">
+                     <table class="w-full text-left">
+                         <thead class="bg-gray-50 border-b border-gray-200 text-sm text-gray-600">
+                             <tr>
+                                 <th class="p-4">Invoice #</th>
+                                 <th class="p-4">Customer</th>
+                                 <th class="p-4">Issue Date</th>
+                                 <th class="p-4">Amount</th>
+                                 <th class="p-4">Status</th>
+                                 <th class="p-4"></th>
+                             </tr>
+                         </thead>
+                         <tbody class="divide-y divide-gray-200">
+                            <tr>
+                                <td class="p-4 font-medium">INV-0021</td>
+                                <td class="p-4">ABC Traders</td>
+                                <td class="p-4">Sep 01, 2025</td>
+                                <td class="p-4">₹11,800.00</td>
+                                <td class="p-4"><span class="status-badge status-paid">Paid</span></td>
+                                <td class="p-4"><i data-lucide="more-horizontal" class="text-gray-500"></i></td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-medium">INV-0020</td>
+                                <td class="p-4">Krishna Enterprises</td>
+                                <td class="p-4">Aug 28, 2025</td>
+                                <td class="p-4">₹8,900.00</td>
+                                <td class="p-4"><span class="status-badge status-overdue">Overdue</span></td>
+                                <td class="p-4"><i data-lucide="more-horizontal" class="text-gray-500"></i></td>
+                            </tr>
+                             <tr>
+                                <td class="p-4 font-medium">INV-0022</td>
+                                <td class="p-4">Future Gadgets Ltd.</td>
+                                <td class="p-4">Sep 02, 2025</td>
+                                <td class="p-4">₹25,960.00</td>
+                                <td class="p-4"><span class="status-badge status-draft">Draft</span></td>
+                                <td class="p-4"><i data-lucide="more-horizontal" class="text-gray-500"></i></td>
+                            </tr>
+                         </tbody>
+                     </table>
+                 </div>
+            </div>
+            
+            <!-- New Invoice -->
+            <div id="new-invoice" class="main-content p-8 bg-gray-100">
+                <h1 class="text-3xl font-bold">Create Invoice</h1>
+                <div class="bg-white p-8 rounded-lg border border-gray-200 mt-6 max-w-4xl mx-auto">
+                    <!-- Header -->
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h2 class="font-bold text-lg">Suresh Kirana</h2>
+                            <p class="text-sm text-gray-500">123 Market Street, Salem, Tamil Nadu, 636001</p>
+                            <p class="text-sm text-gray-500">GSTIN: 33AAAAA0000A1Z5</p>
+                        </div>
+                         <div>
+                            <label for="invoice-num" class="block text-sm font-medium text-gray-700">Invoice #</label>
+                            <input type="text" id="invoice-num" value="INV-0023" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+                         </div>
+                    </div>
+                    <!-- Customer & Dates -->
+                    <div class="grid grid-cols-2 gap-8 mt-8 border-t pt-8">
+                         <div>
+                             <label class="block text-sm font-medium text-gray-700">Bill To</label>
+                             <select class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+                                 <option>Select a customer</option>
+                                 <option selected>ABC Traders (GSTIN: 29BBBBB1111B1Z2)</option>
+                                 <option>Krishna Enterprises</option>
+                             </select>
+                             <p class="text-sm text-gray-500 mt-2">100 Feet Road, Bengaluru, Karnataka, 560038</p>
+                         </div>
+                         <div class="space-y-4">
+                             <div>
+                                <label class="block text-sm font-medium text-gray-700">Issue Date</label>
+                                <input type="date" value="2025-09-02" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm">
+                             </div>
+                             <div>
+                                <label class="block text-sm font-medium text-gray-700">Place of Supply</label>
+                                <input type="text" value="Karnataka (29)" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm bg-gray-100" readonly>
+                             </div>
+                         </div>
+                    </div>
+                    <!-- Line Items -->
+                    <div class="mt-8">
+                        <table class="w-full">
+                            <thead class="bg-gray-50 text-sm text-gray-600">
+                                <tr>
+                                    <th class="p-2 text-left">Item</th>
+                                    <th class="p-2 text-left">HSN</th>
+                                    <th class="p-2 text-center w-20">Qty</th>
+                                    <th class="p-2 text-right w-32">Rate</th>
+                                    <th class="p-2 text-right w-32">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b">
+                                    <td class="p-2">Product A</td>
+                                    <td class="p-2">1001</td>
+                                    <td class="p-2"><input type="number" value="2" class="w-full text-center border-gray-300 rounded-md"></td>
+                                    <td class="p-2"><input type="number" value="5000" class="w-full text-right border-gray-300 rounded-md"></td>
+                                    <td class="p-2 text-right">₹10,000.00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <button class="text-indigo-600 font-semibold text-sm mt-2">+ Add Line Item</button>
+                    </div>
+                    <!-- Totals -->
+                    <div class="flex justify-end mt-8">
+                        <div class="w-full max-w-sm space-y-3">
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Subtotal</span>
+                                <span>₹10,000.00</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-600 flex items-center gap-1">IGST (18%) <i data-lucide="info" class="w-4 h-4 text-gray-400 cursor-pointer"></i></span>
+                                <span>₹1,800.00</span>
+                            </div>
+                             <div class="flex justify-between font-bold text-lg border-t pt-3 mt-3">
+                                <span>Total</span>
+                                <span>₹11,800.00</span>
+                            </div>
+                        </div>
+                    </div>
+                     <!-- Actions -->
+                    <div class="flex justify-end gap-3 mt-12 border-t pt-6">
+                        <button class="bg-gray-100 text-gray-700 font-semibold px-4 py-2 rounded-lg hover:bg-gray-200">Save Draft</button>
+                        <button class="bg-indigo-600 text-white font-semibold px-4 py-2 rounded-lg hover:bg-indigo-700">Generate & Send</button>
+                    </div>
+                </div>
+            </div>
+            
+             <!-- GST Assistant -->
+            <div id="assistant" class="main-content p-8 flex flex-col h-full">
+                 <h1 class="text-3xl font-bold shrink-0">GST Assistant</h1>
+                 <p class="text-gray-500 mt-1 shrink-0">Ask any question about GST rules, rates, and compliance.</p>
+                 <div class="bg-white rounded-lg border mt-6 flex-grow flex flex-col">
+                     <div class="p-6 flex-grow overflow-y-auto space-y-6">
+                         <!-- User question -->
+                         <div class="flex justify-end">
+                            <div class="bg-indigo-600 text-white p-3 rounded-lg max-w-xl">
+                                What is the GST rate for consulting services under HSN code 9983?
+                            </div>
+                         </div>
+                         <!-- AI response -->
+                         <div class="flex justify-start">
+                            <div class="bg-gray-100 text-gray-800 p-4 rounded-lg max-w-2xl">
+                                <p>The standard GST rate for most professional, technical, and business consulting services falling under HSN/SAC code 9983 is <strong>18%</strong> (9% CGST + 9% SGST for intra-state supply, or 18% IGST for inter-state supply).</p>
+                                <div class="mt-3 border-t pt-2">
+                                    <p class="text-xs font-semibold text-gray-500">Source:</p>
+                                    <a href="#" class="text-xs text-indigo-600 hover:underline">Notification No. 11/2017-Central Tax (Rate), dated 28th June 2017.</a>
+                                </div>
+                                <p class="text-xs text-gray-400 mt-3">Disclaimer: This is not legal advice. Please consult a tax professional.</p>
+                            </div>
+                         </div>
+                     </div>
+                     <div class="p-4 border-t bg-white shrink-0">
+                         <div class="relative">
+                            <input type="text" placeholder="Type your question here..." class="w-full rounded-lg border-gray-300 pr-12 py-3">
+                            <button class="absolute right-3 top-1/2 -translate-y-1/2 bg-indigo-600 text-white rounded-md p-2 hover:bg-indigo-700">
+                                <i data-lucide="send" class="w-5 h-5"></i>
+                            </button>
+                         </div>
+                     </div>
+                 </div>
+            </div>
+
+            <!-- Customers -->
+            <div id="customers" class="main-content p-8">
+                <h1 class="text-3xl font-bold">Customers</h1>
+            </div>
+            <!-- Products -->
+            <div id="products" class="main-content p-8">
+                <h1 class="text-3xl font-bold">Products</h1>
+            </div>
+            <!-- Reports -->
+            <div id="reports" class="main-content p-8">
+                <h1 class="text-3xl font-bold">Reports</h1>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        const mainContentDivs = document.querySelectorAll('.main-content');
+        const sidebarItems = document.querySelectorAll('.sidebar-item');
+
+        function navigate(element, screenId) {
+            // Prevent default link behavior
+            if(event) event.preventDefault();
+
+            // Update active screen
+            mainContentDivs.forEach(div => {
+                div.classList.remove('active');
+            });
+            document.getElementById(screenId).classList.add('active');
+
+            // Update sidebar active state only if element is passed
+            if(element){
+                sidebarItems.forEach(item => {
+                    item.classList.remove('active');
+                });
+                element.classList.add('active');
+            }
+        }
+        
+        // Chart.js implementation for dashboard
+        document.addEventListener('DOMContentLoaded', () => {
+            const ctx = document.getElementById('salesChart').getContext('2d');
+            const salesChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+                    datasets: [{
+                        label: 'Sales (in ₹)',
+                        data: [50000, 65000, 80000, 75000, 95000, 110000, 105000, 130000, 112750],
+                        borderColor: '#4f46e5',
+                        backgroundColor: 'rgba(79, 70, 229, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                           display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        });
+
+    </script>
+</body>
+</html>
